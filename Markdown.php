@@ -88,6 +88,11 @@ class MarkdownExtension
         }
         else
         {
+            if ($wgMarkdownDefaultOn)
+            {
+                $text = substr($text, strlen(static::getSearchString()));
+            }
+
             return true;
         }
     }
