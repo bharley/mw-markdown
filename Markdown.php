@@ -31,8 +31,8 @@ $wgMarkdownToggleFormat = '{{%s}}';
 $wgMarkdownWikiLinks    = true;
 $wgMarkdownExtra        = false;
 $wgMarkdownHighlight    = false;
-$wgMarkdownHighlightJs  = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js';
-$wgMarkdownHighlightCss = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/default.min.css';
+$wgMarkdownHighlightJs  = null;
+$wgMarkdownHighlightCss = null;
 
 // Hook
 $wgHooks['ParserBeforeInternalParse'][] = 'MarkdownExtension::onParserBeforeInternalParse';
