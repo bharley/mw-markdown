@@ -30,9 +30,13 @@ $wgMarkdownDefaultOn    = true;
 $wgMarkdownToggleFormat = '{{%s}}';
 $wgMarkdownWikiLinks    = true;
 $wgMarkdownExtra        = false;
+$wgMarkdownHighlight    = false;
+$wgMarkdownHighlightJs  = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js';
+$wgMarkdownHighlightCss = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/default.min.css';
 
 // Hook
 $wgHooks['ParserBeforeInternalParse'][] = 'MarkdownExtension::onParserBeforeInternalParse';
+$wgHooks['BeforePageDisplay'][]         = 'MarkdownExtension::onBeforePageDisplay';
 
 // Load Parsedown (https://github.com/erusev/parsedown)
 require_once('Parsedown.php');
@@ -47,6 +51,20 @@ if (file_exists(__DIR__ . '/ParsedownExtra.php'))
  */
 class MarkdownExtension
 {
+    public static function onBeforePageDisplay(OutputPage &$out)
+    {
+        global $wgMarkdownHighlight;
+        global $wgMarkdownHighlightJs;
+        global $wgMarkdownHighlightCss;
+
+        if ($wgMarkdownHighlight)
+        {
+            $out->addScriptFile($wgMarkdownHighlightJs);
+            $out->addStyle($wgMarkdownHighlightCss);
+            $out->addInlineScript('hljs.initHighlightingOnLoad();');
+        }
+    }
+
     /**
      * If everything checks out, this hook will parse the given text for Markdown.
      *
