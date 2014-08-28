@@ -28,12 +28,15 @@ You can make Markdown parsing optional by setting `$wgMarkdownDefaultOn` to `fal
 
 There are a handful of settings available to configure this extension:
 
-Setting                   | Default  | Description
-------------------------- | -------- | -----------
-`$wgMarkdownDefaultOn`    | `true`   | If this is set to false, an article must start with `{{MARKDOWN}}` to be parsed for Markdown.
-`$wgMarkdownToggleFormat` | `{{%s}}` | The `{{%s}}` syntax is used by MediaWiki for templates. While this should not be a problem in most cases, you can change the tag boundries if problems arise.
-`$wgMarkdownWikiLinks`    | `true`   | If enabled, links will be run though WikiMedia's linkifier so it can properly generate local links among other things. This functionality is a little experimental, so disable it if it is causing problems.
-`$wgMarkdownExtra`        | `false`  | If enabled, [Parsedown Extra] will be loaded and used. **Note:** Make sure Parsedown Extra is downloaded before enabling this.
+Setting                   | Since | Default  | Description
+------------------------- | ----- | -------- | -----------
+`$wgMarkdownDefaultOn`    | 0.1   | `true`   | If this is set to false, an article must start with `{{MARKDOWN}}` to be parsed for Markdown.
+`$wgMarkdownToggleFormat` | 0.1   | `{{%s}}` | The `{{%s}}` syntax is used by MediaWiki for templates. While this should not be a problem in most cases, you can change the tag boundries if problems arise."
+`$wgMarkdownWikiLinks`    | 0.1   | `true`   | If enabled, links will be run though WikiMedia's linkifier so it can properly generate local links among other things. This functionality is a little experimental, so disable it if it is causing problems.
+`$wgMarkdownExtra`        | 0.1   | `false`  | If enabled, [Parsedown Extra] will be loaded and used. **Note:** Make sure Parsedown Extra is downloaded before enabling this.
+`$wgMarkdownHighlight`    | 0.2   | `false`  | If enabled, attempts to load [Highlight.js].
+`$wgMarkdownHighlightJs`  | 0.2   | `null`   | The path to the Highlight.js JavaScript file.
+`$wgMarkdownHighligJCss`  | 0.2   | `null`   | The path to the Highlight.js CSS file.
 
 Settings should go in your `LocalSettings.php` file **after** including the extension.
 
@@ -44,7 +47,10 @@ Settings should go in your `LocalSettings.php` file **after** including the exte
 // ...
 require_once("$IP/extensions/Markdown/Markdown.php");
 
-$wgMarkdownExtra = true;
+$wgMarkdownExtra        = true;
+$wgMarkdownHighlight    = true;
+$wgMarkdownHighlightJs  = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js';
+$wgMarkdownHighlightCss = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/default.min.css';
 // ...
 ```
 
@@ -55,3 +61,4 @@ $wgMarkdownExtra = true;
 [erusev]: https://github.com/erusev
 [Parsedown]: https://github.com/erusev/parsedown
 [Parsedown Extra]: https://github.com/erusev/parsedown-extra
+[Highlight.js]: https://highlightjs.org/
