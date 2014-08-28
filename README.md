@@ -31,7 +31,7 @@ There are a handful of settings available to configure this extension:
 Setting                   | Since | Default  | Description
 ------------------------- | ----- | -------- | -----------
 `$wgMarkdownDefaultOn`    | 0.1   | `true`   | If this is set to false, an article must start with `{{MARKDOWN}}` to be parsed for Markdown.
-`$wgMarkdownToggleFormat` | 0.1   | `{{%s}}` | The `{{%s}}` syntax is used by MediaWiki for templates. While this should not be a problem in most cases, you can change the tag boundries if problems arise."
+`$wgMarkdownToggleFormat` | 0.1   | `{{%s}}` | The `{{%s}}` syntax is used by MediaWiki for templates. While this should not be a problem in most cases, you can change the tag boundries if problems arise.
 `$wgMarkdownWikiLinks`    | 0.1   | `true`   | If enabled, links will be run though WikiMedia's linkifier so it can properly generate local links among other things. This functionality is a little experimental, so disable it if it is causing problems.
 `$wgMarkdownExtra`        | 0.1   | `false`  | If enabled, [Parsedown Extra] will be loaded and used. **Note:** Make sure Parsedown Extra is downloaded before enabling this.
 `$wgMarkdownHighlight`    | 0.2   | `false`  | If enabled, attempts to load [Highlight.js].
