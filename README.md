@@ -36,7 +36,7 @@ Setting                   | Since | Default  | Description
 `$wgMarkdownExtra`        | 0.1   | `false`  | If enabled, [Parsedown Extra] will be loaded and used. **Note:** Make sure Parsedown Extra is downloaded before enabling this.
 `$wgMarkdownHighlight`    | 0.2   | `false`  | If enabled, attempts to load [Highlight.js].
 `$wgMarkdownHighlightJs`  | 0.2   | `null`   | The path to the Highlight.js JavaScript file.
-`$wgMarkdownHighligJCss`  | 0.2   | `null`   | The path to the Highlight.js CSS file.
+`$wgMarkdownHighlightCss` | 0.2   | `null`   | The path to the Highlight.js CSS file.
 
 Settings should go in your `LocalSettings.php` file **after** including the extension.
 
