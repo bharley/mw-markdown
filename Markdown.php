@@ -63,6 +63,8 @@ class MarkdownExtension
             $out->addStyle($wgMarkdownHighlightCss);
             $out->addInlineScript('hljs.initHighlightingOnLoad();');
         }
+
+        return true;
     }
 
     /**
