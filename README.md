@@ -10,8 +10,8 @@ Wiki markup in articles. This extension uses [erusev]'s [Parsedown] and, optiona
 
 - Download this extension (grab the latest from [releases](https://github.com/bharley/mw-markdown/releases))
 - Extract this extension into `$mw/extensions/Markdown` where `$mw` is that path to your MediaWiki installation
-- Download [Parsedown] and place it in `$mw/extensions/Markdown`
-- **(Optional)** Download [Parsedown Extra] and place it in `$mw/extensions/Markdown`
+- Download [Parsedown] and place `Parsedown.php` in `$mw/extensions/Markdown`
+- **(Optional)** Download [Parsedown Extra] and place `ParsedownExtra.php` in `$mw/extensions/Markdown`
 - Add the following to `$mw/LocalSettings.php`:
 
 ```php
