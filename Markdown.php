@@ -137,6 +137,7 @@ class MarkdownExtension
         // Post-Markdown wiki parsing
         $html = $parser->formatHeadings($html, $text);
         $html = $parser->doMagicLinks($html);
+        $html = $parser->stripOuterParagraph($html);
 
         return $html;
     }
