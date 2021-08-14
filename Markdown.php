@@ -40,10 +40,7 @@ $wgAutoloadClasses['MarkdownExtension'] = __DIR__ . '/includes/MarkdownExtension
 $wgHooks['ParserBeforeInternalParse'][] = 'MarkdownExtension::onParserBeforeInternalParse';
 $wgHooks['BeforePageDisplay'][]         = 'MarkdownExtension::onBeforePageDisplay';
 
-// Load Parsedown (https://github.com/erusev/parsedown)
-require_once('Parsedown.php');
-if (file_exists(__DIR__ . '/ParsedownExtra.php'))
+if (file_exists(__DIR__ . '/vendor/autoload.php'))
 {
-    // Optionally, load Parsedown Extra (https://github.com/erusev/parsedown-extra)
-    require_once('ParsedownExtra.php');
+    require_once(__DIR__ . '/vendor/autoload.php');
 }

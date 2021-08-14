@@ -1,0 +1,8 @@
+{
+	"require": {
+		"erusev/parsedown": "1.7.4"
+	},
+	"suggest": {
+		"erusev/parsedown-extra": "Optional extra package"
+	}
+}
