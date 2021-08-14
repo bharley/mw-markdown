@@ -1,0 +1,44 @@
+{
+	"name": "Markdown",
+	"version": "0.3",
+	"author": "Blake Harley",
+	"url": "https://github.com/bharley/mw-markdown",
+	"description": "Uses Markdown for wiki parsing",
+	"license-name": "MIT",
+	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.29.0"
+	},
+	"AutoloadClasses": {
+		"MarkdownExtension": "includes/MarkdownExtension.php"
+	},
+	"Hooks": {
+		"ParserBeforeInternalParse": "MarkdownExtension::onParserBeforeInternalParse",
+		"BeforePageDisplay": "MarkdownExtension::onBeforePageDisplay"
+	},
+	"config": {
+		"MarkdownDefaultOn": {
+			"value": true
+		},
+		"MarkdownToggleFormat": {
+			"value": "{{%s}}"
+		},
+		"MarkdownWikiLinks": {
+			"value": true
+		},
+		"MarkdownExtra": {
+			"value": false
+		},
+		"MarkdownHighlight": {
+			"value": false
+		},
+		"MarkdownHighlightJs": {
+			"value": null
+		},
+		"MarkdownHighlightCss": {
+			"value": null
+		}
+	},
+	"load_composer_autoloader": true,
+	"manifest_version": 2
+}

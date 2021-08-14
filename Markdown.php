@@ -12,35 +12,13 @@
  * @link      https://github.com/bharley/mw-markdown
  */
 
-// Prevent global hijackingengine
-if (!defined('MEDIAWIKI')) die();
-
-// Credits
-$wgExtensionCredits['parserhook'][] = array(
-    'name'         => 'Markdown',
-    'description'  => 'Uses Markdown for wiki parsing',
-    'version'      => '0.3',
-    'author'       => 'Blake Harley',
-    'url'          => 'https://github.com/bharley/mw-markdown',
-    'license-name' => 'MIT',
-);
-
-// Available config options
-$wgMarkdownDefaultOn    = true;
-$wgMarkdownToggleFormat = '{{%s}}';
-$wgMarkdownWikiLinks    = true;
-$wgMarkdownExtra        = false;
-$wgMarkdownHighlight    = false;
-$wgMarkdownHighlightJs  = null;
-$wgMarkdownHighlightCss = null;
-
-$wgAutoloadClasses['MarkdownExtension'] = __DIR__ . '/includes/MarkdownExtension.php';
-
-// Hook
-$wgHooks['ParserBeforeInternalParse'][] = 'MarkdownExtension::onParserBeforeInternalParse';
-$wgHooks['BeforePageDisplay'][]         = 'MarkdownExtension::onBeforePageDisplay';
-
-if (file_exists(__DIR__ . '/vendor/autoload.php'))
-{
-    require_once(__DIR__ . '/vendor/autoload.php');
+if ( function_exists( 'wfLoadExtension' ) ) {
+	wfLoadExtension( 'Markdown' );
+	wfWarn(
+		'Deprecated PHP entry point used for Markdown extension. Please use wfLoadExtension instead, ' .
+		'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
+	);
+	return;
+} else {
+	die( 'This version of the Markdown extension requires MediaWiki 1.25+' );
 }
