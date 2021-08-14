@@ -6,7 +6,7 @@
  * This is a (rather simple) MediaWiki extension that uses erusev's Parsedown.
  *
  * @author    Blake Harley <blake@blakeharley.com>
- * @version   0.2
+ * @version   0.3
  * @copyright Copyright (C) 2014 Blake Harley
  * @license   MIT License
  * @link      https://github.com/bharley/mw-markdown
@@ -19,7 +19,7 @@ if (!defined('MEDIAWIKI')) die();
 $wgExtensionCredits['parserhook'][] = array(
     'name'         => 'Markdown',
     'description'  => 'Uses Markdown for wiki parsing',
-    'version'      => '0.2',
+    'version'      => '0.3',
     'author'       => 'Blake Harley',
     'url'          => 'https://github.com/bharley/mw-markdown',
     'license-name' => 'MIT',
