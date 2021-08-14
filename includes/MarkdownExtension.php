@@ -8,141 +8,133 @@
  * @author    Blake Harley <blake@blakeharley.com>
  * @version   0.2
  * @copyright Copyright (C) 2014 Blake Harley
- * @license   MIT License
+ * @license   MIT
  * @link      https://github.com/bharley/mw-markdown
  */
 
-class MarkdownExtension
-{
-    public static function onBeforePageDisplay(OutputPage &$out)
-    {
-        global $wgMarkdownHighlight;
-        global $wgMarkdownHighlightJs;
-        global $wgMarkdownHighlightCss;
+class MarkdownExtension {
+	/**
+	 * @param OutputPage &$out
+	 * @return bool
+	 */
+	public static function onBeforePageDisplay( OutputPage &$out ) {
+		global $wgMarkdownHighlight, $wgMarkdownHighlightJs, $wgMarkdownHighlightCss;
 
-        if ($wgMarkdownHighlight)
-        {
-            $out->addScriptFile($wgMarkdownHighlightJs);
-            $out->addStyle($wgMarkdownHighlightCss);
-            $out->addInlineScript('hljs.initHighlightingOnLoad();');
-        }
+		if ( $wgMarkdownHighlight ) {
+			$out->addScriptFile( $wgMarkdownHighlightJs );
+			$out->addStyle( $wgMarkdownHighlightCss );
+			$out->addInlineScript( 'hljs.initHighlightingOnLoad();' );
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * If everything checks out, this hook will parse the given text for Markdown.
-     *
-     * @param Parser $parser MediaWiki's parser
-     * @param string $text   The text to parse
-     */
-    public static function onParserBeforeInternalParse($parser, &$text)
-    {
-        global $wgMarkdownDefaultOn;
+	/**
+	 * If everything checks out, this hook will parse the given text for Markdown.
+	 *
+	 * @param Parser $parser MediaWiki's parser
+	 * @param string &$text The text to parse
+	 * @return bool
+	 */
+	public static function onParserBeforeInternalParse( $parser, &$text ) {
+		global $wgMarkdownDefaultOn;
 
-        if (static::shouldParseText($text))
-        {
-            if (!$wgMarkdownDefaultOn)
-            {
-                $text = substr($text, strlen(static::getSearchString()));
-            }
+		if ( static::shouldParseText( $text ) ) {
+			if ( !$wgMarkdownDefaultOn ) {
+				$text = substr( $text, strlen( static::getSearchString() ) );
+			}
 
-            $text = static::parseMarkdown($parser, $text);
+			$text = static::parseMarkdown( $parser, $text );
 
-            return false;
-        }
-        else
-        {
-            if ($wgMarkdownDefaultOn)
-            {
-                $text = substr($text, strlen(static::getSearchString()));
-            }
+			return false;
+		}
 
-            return true;
-        }
-    }
+		if ( $wgMarkdownDefaultOn ) {
+			$text = substr( $text, strlen( static::getSearchString() ) );
+		}
 
-    /**
-     * Converts the given text into markdown.
-     *
-     * @param  Parser $parser MediaWiki's parser
-     * @param  string $text   The text to parse
-     * @return string         The parsed text
-     */
-    protected static function parseMarkdown($parser, $text)
-    {
-        global $wgMarkdownWikiLinks;
+		return true;
+	}
 
-        $html = $text;
+	/**
+	 * Converts the given text into markdown.
+	 *
+	 * @param Parser $parser MediaWiki's parser
+	 * @param string $text The text to parse
+	 * @return string The parsed text
+	 */
+	protected static function parseMarkdown( $parser, $text ) {
+		global $wgMarkdownWikiLinks;
 
-        // Post-Markdown wiki parsing
-        $html = $parser->replaceVariables($html);
-        $html = $parser->doDoubleUnderscore($html);
+		$html = $text;
 
-        // Parse Markdown
-        $html = static::getParser()->text($html);
+		// Post-Markdown wiki parsing
+		$html = $parser->replaceVariables( $html );
+		$html = $parser->doDoubleUnderscore( $html );
 
-        // Attempt to use Wiki-style links if turned on
-        if ($wgMarkdownWikiLinks)
-        {
-            $html = preg_replace_callback('#<a href="(.+?)"(?: title=".+?")?>(.+?)</a>#i', function ($matches) {
-                list($match, $url, $text) = $matches;
-                $external = (bool) preg_match('#^[a-z]+://#i', $url);
+		// Parse Markdown
+		$html = static::getParser()->text( $html );
 
-                return sprintf($external ? '[%s %s]' : '[[%s|%s]]', $url, $text);
-            }, $html);
+		// Attempt to use Wiki-style links if turned on
+		if ( $wgMarkdownWikiLinks ) {
+			$html = preg_replace_callback(
+				'#<a href="(.+?)"(?: title=".+?")?>(.+?)</a>#i',
+				static function ( $matches ) {
+					list( $match, $url, $text ) = $matches;
+					$external = (bool)preg_match( '#^[a-z]+://#i', $url );
 
-            $html = $parser->replaceInternalLinks($html);
-            $html = $parser->replaceExternalLinks($html);
-            $parser->replaceLinkHolders($html);
-        }
+					return sprintf( $external ? '[%s %s]' : '[[%s|%s]]', $url, $text );
+				},
+				$html
+			);
 
-        // Post-Markdown wiki parsing
-        $html = $parser->formatHeadings($html, $text);
-        $html = $parser->doMagicLinks($html);
+			$html = $parser->replaceInternalLinks( $html );
+			$html = $parser->replaceExternalLinks( $html );
+			$parser->replaceLinkHolders( $html );
+		}
 
-        return $html;
-    }
+		// Post-Markdown wiki parsing
+		$html = $parser->formatHeadings( $html, $text );
+		return $parser->doMagicLinks( $html );
+	}
 
-    /**
-     * @param  string $text The text to check over for our tags if necessary
-     * @return bool         Whether or not to parse the given text
-     */
-    protected static function shouldParseText($text)
-    {
-        global $wgMarkdownDefaultOn;
+	/**
+	 * @param string $text The text to check over for our tags if necessary
+	 * @return bool Whether to parse the given text
+	 */
+	protected static function shouldParseText( $text ) {
+		global $wgMarkdownDefaultOn;
 
-        $search = static::getSearchString();
+		$search = static::getSearchString();
 
-        return (($wgMarkdownDefaultOn && strpos($text, $search) !== 0)
-            || (!$wgMarkdownDefaultOn && strpos($text, $search) === 0));
-    }
+		return (
+			( $wgMarkdownDefaultOn && strpos( $text, $search ) !== 0 )
+			|| ( !$wgMarkdownDefaultOn && strpos( $text, $search ) === 0 )
+		);
+	}
 
-    /**
-     * @return string The search string
-     */
-    protected static function getSearchString()
-    {
-        global $wgMarkdownDefaultOn;
-        global $wgMarkdownToggleFormat;
+	/**
+	 * @return string The search string
+	 */
+	protected static function getSearchString() {
+		global $wgMarkdownDefaultOn, $wgMarkdownToggleFormat;
 
-        return sprintf($wgMarkdownToggleFormat, $wgMarkdownDefaultOn ? 'WIKI' : 'MARKDOWN');
-    }
+		return sprintf( $wgMarkdownToggleFormat, $wgMarkdownDefaultOn ? 'WIKI' : 'MARKDOWN' );
+	}
 
-    /**
-     * @return Parsedown
-     */
-    protected static function getParser()
-    {
-        static $parser;
-        global $wgMarkdownExtra;
+	/**
+	 * @return Parsedown
+	 */
+	protected static function getParser() {
+		static $parser;
+		global $wgMarkdownExtra;
 
-        if (!$parser)
-        {
-            $parser = $wgMarkdownExtra ? new ParsedownExtra : new Parsedown;
-        }
+		if ( !$parser ) {
+			$parser = $wgMarkdownExtra
+				? new ParsedownExtra()
+				: new Parsedown();
+		}
 
-        return $parser;
-    }
+		return $parser;
+	}
 }
-

@@ -8,7 +8,7 @@
  * @author    Blake Harley <blake@blakeharley.com>
  * @version   0.3
  * @copyright Copyright (C) 2014 Blake Harley
- * @license   MIT License
+ * @license   MIT
  * @link      https://github.com/bharley/mw-markdown
  */
 
