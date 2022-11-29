@@ -112,13 +112,6 @@ class MarkdownExtension
 
         $html = $text;
 
-        // Post-Markdown wiki parsing
-        $html = $parser->replaceVariables($html);
-        $html = $parser->doDoubleUnderscore($html);
-
-        // Parse Markdown
-        $html = static::getParser()->text($html);
-
         // Attempt to use Wiki-style links if turned on
         if ($wgMarkdownWikiLinks)
         {
@@ -128,15 +121,10 @@ class MarkdownExtension
 
                 return sprintf($external ? '[%s %s]' : '[[%s|%s]]', $url, $text);
             }, $html);
-
-            $html = $parser->replaceInternalLinks($html);
-            $html = $parser->replaceExternalLinks($html);
-            $parser->replaceLinkHolders($html);
         }
 
-        // Post-Markdown wiki parsing
-        $html = $parser->formatHeadings($html, $text);
-        $html = $parser->doMagicLinks($html);
+        // Parse Markdown
+        $html = static::getParser()->text($html);
 
         return $html;
     }
@@ -182,4 +170,3 @@ class MarkdownExtension
         return $parser;
     }
 }
-
